@@ -8,18 +8,18 @@ import (
 	"github.com/smartystreets/goconvey/convey"
 )
 
-type simpleStruct1 struct {
-	Int1    int           `json:"int1"`
-	Float2  float32       `json:"float2"`
-	Name    string        `json:"name"`
-	Unknown []interface{} `json:"unknown"`
-}
-type simpleStruct2 struct {
-	Name string         `json:"name"`
-	S1   *simpleStruct1 `json:"s1"`
-}
+//type simpleStruct1 struct {
+//	Int1    int           `json:"int1"`
+//	Float2  float32       `json:"float2"`
+//	Name    string        `json:"name"`
+//	Unknown []interface{} `json:"unknown"`
+//}
+//type simpleStruct2 struct {
+//	Name string         `json:"name"`
+//	S1   *simpleStruct1 `json:"s1"`
+//}
 
-func TestMarshalStruct(t *testing.T) {
+func TestMarshal(t *testing.T) {
 	type args struct {
 		v interface{}
 	}
@@ -47,14 +47,14 @@ func TestMarshalStruct(t *testing.T) {
 				want:    "{\"name\":\"s2\",\"s1\":{\"int1\":12,\"float2\":1.23,\"name\":\"s1\",\"unknown\":[]}}",
 			}
 			fmt.Println(tt.want)
-			got, err := MarshalString(tt.args.v)
+			got, err := Marshal(tt.args.v)
 			convey.So(err != nil, convey.ShouldEqual, tt.wantErr)
-			convey.So(got, convey.ShouldEqual, tt.want)
+			convey.So(string(got), convey.ShouldEqual, tt.want)
 		})
 
 		mockito.PatchConvey("string test case2", func() {
 			s := "testString"
-			got, err := MarshalString(s)
+			got, err := Marshal(s)
 			convey.So(err, convey.ShouldBeNil)
 			convey.So(got, convey.ShouldEqual, s)
 		})
